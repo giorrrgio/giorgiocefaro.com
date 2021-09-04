@@ -3,3 +3,9 @@ title: Giorgio Cefaro
 logo: /giorgio.jpg
 description: Software Development Manager @ Hootsuite
 show_downloads: false
+
+navbar-links:
+  home: "index"
+  linkedin: "https://www.linkedin.com/in/giorgiocefaro"
+  twitter: "https://twitter.com/giorrrgio"
+  instagram: "https://www.instagram.com/giorrrgio/"
