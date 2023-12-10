@@ -1,13 +1,17 @@
-remote_theme: pages-themes/minimal@v0.2.0
+remote_theme: BDHU/minimalist
 plugins:
 - jekyll-remote-theme # add
 title: Giorgio Cefaro
 logo: /giorgio.jpg
 description: Senior Software Development Manager @ Hootsuite
 show_downloads: false
-
-navbar-links:
-  home: "index"
-  linkedin: "https://www.linkedin.com/in/giorgiocefaro"
-  twitter: "https://twitter.com/giorrrgio"
-  instagram: "https://www.instagram.com/giorrrgio/"
+sidebar:
+  - name: Linkedin
+    icon: <i class="fa-brands fa-linkedin"></i>
+    link: https://www.linkedin.com/in/giorgiocefaro
+  - name: GitHub
+    icon: <i class="fa-brands fa-github"></i>
+    link: https://github.com/giorrrgio
+  - name: Twitter
+    icon: <i class="fa-brands fa-twitter"></i>
+    link: https://twitter.com/giorrrgio
