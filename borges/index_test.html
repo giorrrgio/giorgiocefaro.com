@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Borges Wheel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="borges_test.css">
+</head>
+<body>
+    <button id="burgerButton">☰</button>
+    <div id="menuOverlay"></div>
+
+    <div id="sideMenu">
+        <div class="menu-content">
+            <div class="menu-section">
+                <h3>Text</h3>
+                <textarea id="textInput" placeholder="Enter your text..."></textarea>
+            </div>
+
+            <div class="menu-section">
+                <h3>Color Palette</h3>
+                <label>Text Palette</label>
+                <select id="paletteSelect">
+                    <option value="0">Sunset Dreams</option>
+                    <option value="1">Ocean Breeze</option>
+                    <option value="2">Forest Whisper</option>
+                    <option value="3">Candy Pop</option>
+                    <option value="4">Purple Rain</option>
+                    <option value="5">Golden Hour</option>
+                    <option value="6">Neon Nights</option>
+                    <option value="7">Cherry Blossom</option>
+                    <option value="8">Desert Sand</option>
+                    <option value="9">Arctic Ice</option>
+                </select>
+                
+                <label style="margin-top: 15px; display: block;">Ball Palette</label>
+                <select id="ballPaletteSelect">
+                    <option value="0">Sunset Dreams</option>
+                    <option value="1">Ocean Breeze</option>
+                    <option value="2">Forest Whisper</option>
+                    <option value="3">Candy Pop</option>
+                    <option value="4">Purple Rain</option>
+                    <option value="5">Golden Hour</option>
+                    <option value="6">Neon Nights</option>
+                    <option value="7">Cherry Blossom</option>
+                    <option value="8">Desert Sand</option>
+                    <option value="9">Arctic Ice</option>
+                </select>
+            </div>
+
+            <div class="menu-section">
+                <a class="advanced-toggle" id="advancedToggle">Advanced Settings ▼</a>
+                
+                <div id="advancedOptions">
+                    <div class="param-group">
+                        <label>Font Size</label>
+                        <div class="range-container">
+                            <input type="range" id="fontSize" min="40" max="200" value="120">
+                            <span class="range-value" id="fontSizeValue">120</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Brick Size</label>
+                        <div class="range-container">
+                            <input type="range" id="brickSize" min="0.5" max="5" step="0.1" value="0.5">
+                            <span class="range-value" id="brickSizeValue">0.5</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Sample Factor</label>
+                        <div class="range-container">
+                            <input type="range" id="sampleFactor" min="0.1" max="2" step="0.1" value="1.5">
+                            <span class="range-value" id="sampleFactorValue">1.5</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Particle Spawn Interval (ms)</label>
+                        <input type="number" id="spawnInterval" value="200" min="50" max="2000" step="50">
+                    </div>
+
+                    <div class="param-group">
+                        <label>Max Balls</label>
+                        <input type="number" id="maxBalls" value="50" min="10" max="500" step="10">
+                    </div>
+
+                    <div class="param-group">
+                        <label>Letter Spacing</label>
+                        <input type="number" id="letterSpacing" value="0" min="-20" max="50">
+                    </div>
+
+                    <div class="param-group">
+                        <label>Line Height Multiplier</label>
+                        <div class="range-container">
+                            <input type="range" id="lineHeight" min="0.5" max="1.5" step="0.01" value="0.89">
+                            <span class="range-value" id="lineHeightValue">0.89</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Drag Spin Factor</label>
+                        <div class="range-container">
+                            <input type="range" id="dragSpin" min="0.001" max="0.01" step="0.0001" value="0.003">
+                            <span class="range-value" id="dragSpinValue">0.003</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Text Mass Multiplier</label>
+                        <div class="range-container">
+                            <input type="range" id="textMass" min="1" max="50" step="1" value="10">
+                            <span class="range-value" id="textMassValue">10</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Key Rotation Force</label>
+                        <div class="range-container">
+                            <input type="range" id="rotationForce" min="0.001" max="0.02" step="0.001" value="0.005">
+                            <span class="range-value" id="rotationForceValue">0.005</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label>Rest Timeout (ms)</label>
+                        <input type="number" id="restTimeout" value="5000" min="1000" max="20000" step="500">
+                    </div>
+
+                    <div class="param-group">
+                        <label>Rest Velocity Threshold</label>
+                        <div class="range-container">
+                            <input type="range" id="restVelocity" min="0.01" max="0.2" step="0.01" value="0.05">
+                            <span class="range-value" id="restVelocityValue">0.05</span>
+                        </div>
+                    </div>
+
+                    <div class="param-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ballCollisionColorMode" checked>
+                            Ball Collision Color Mode
+                        </label>
+                    </div>
+
+                    <div class="param-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="gyroscopeGravityEnabled">
+                            Motion Sensors (Tilt & Shake)
+                        </label>
+                        <button id="requestOrientationPermission" style="display: none;">Enable Motion Sensors</button>
+                        <div id="gyroStatus" class="gyro-status" style="display: none;">Sensors inactive</div>
+                    </div>
+
+                    <div class="param-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="debugBricks">
+                            Debug Bricks
+                        </label>
+                    </div>
+
+                    <div class="param-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoCleanEnabled" checked>
+                            Auto Ball Cleanup
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { Engine, World, Bodies, Body, Constraint, Vector, Events, Common } = Matter;
+        
+        let engine, world;
+        let ground;
+        let balls = [];
+        let font;
+        let textCompoundBody = null;
+        let textValue = 'BORGES\nWHEEL';
+        let pivotConstraint = null;
+        let lastSpawnTime = 0;
+        let letterPositions = [];
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        let FONT_SIZE = 120;
+        let BRICK_SIZE = 0.5;
+        let SAMPLE_FACTOR = 1.5;
+        let PARTICLE_SPAWN_INTERVAL = 200;
+        let LETTER_SPACING = 0;
+        let DEBUG_BRICKS = false;
+        let LINE_HEIGHT_MULTIPLIER = 0.89;
+        let DRAG_SPIN_FACTOR = 0.003;
+        let TEXT_MASS_MULTIPLIER = 10;
+        let ROTATION_FORCE = 0.005;
+        let REST_TIMEOUT = 5000;
+        let REST_VELOCITY_THRESHOLD = 0.05;
+        let autoCleanEnabled = true;
+        let MAX_BALLS = 50;
+        let BALL_COLLISION_COLOR_MODE = true;
+        let GYROSCOPE_GRAVITY_ENABLED = false;
+
+        let ballsEmittedCount = 0;
+        const COLOR_TRANSITION_DURATION = 500;
+        
+        const COLOR_PALETTES = [
+            ['#FF6B6B', '#FFA07A', '#FFD93D', '#FF8C42', '#FF5E78'],
+            ['#00B4D8', '#0077B6', '#90E0EF', '#48CAE4', '#023E8A'],
+            ['#2D6A4F', '#52B788', '#95D5B2', '#40916C', '#1B4332'],
+            ['#FF69EB', '#FF9CEE', '#FFD6FF', '#FFC2E2', '#FF94E8'],
+            ['#9D4EDD', '#C77DFF', '#E0AAFF', '#B185DB', '#7B2CBF'],
+            ['#FFB627', '#FFA500', '#FFD700', '#FFC300', '#FF9500'],
+            ['#00FFF5', '#FF006E', '#FFBE0B', '#00F5FF', '#FF0080'],
+            ['#FFB7C5', '#FF85A2', '#FFC1CC', '#FF9EBE', '#FFD4E5'],
+            ['#E9C46A', '#F4A261', '#E76F51', '#D4A574', '#C8A882'],
+            ['#A0D2DB', '#D0F4EA', '#B8E1E8', '#89C9D0', '#C2E7F0']
+        ];
+        
+        let currentPaletteIndex = 0;
+        let ballPaletteIndex = 0;
+        let gyroPermissionGranted = false;
+        let lastShakeTime = 0;
+
+        function hexToRgb(hex) {
+            hex = hex.startsWith('#') ? hex.slice(1) : hex;
+            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+            const bigint = parseInt(hex, 16);
+            return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+        }
+
+        function rgbToHex(r, g, b) {
+            const componentToHex = (c) => {
+                const hex = Math.round(c).toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            };
+            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+        }
+
+        function lerpColorHex(color1, color2, amount) {
+            const rgb1 = hexToRgb(color1);
+            const rgb2 = hexToRgb(color2);
+            const r = rgb1.r + (rgb2.r - rgb1.r) * amount;
+            const g = rgb1.g + (rgb2.g - rgb1.g) * amount;
+            const b = rgb1.b + (rgb2.b - rgb1.b) * amount;
+            return rgbToHex(r, g, b);
+        }
+
+        function setupCollisionDetection() {
+            Events.on(engine, 'collisionStart', (event) => {
+                if (!BALL_COLLISION_COLOR_MODE || !textCompoundBody) return;
+                const pairs = event.pairs;
+                const letterCollisionColors = new Map();
+
+                for (let i = 0; i < pairs.length; i++) {
+                    const pair = pairs[i];
+                    let ball = null;
+                    let brick = null;
+
+                    if (pair.bodyA.label === 'ball' && pair.bodyB.label === 'brick') {
+                        ball = pair.bodyA;
+                        brick = pair.bodyB;
+                    } else if (pair.bodyA.label === 'brick' && pair.bodyB.label === 'ball') {
+                        ball = pair.bodyB;
+                        brick = pair.bodyA;
+                    }
+
+                    if (ball && brick) {
+                        const ballInstance = balls.find(b => b.body === ball);
+                        const letterIndex = brick.letterIndex;
+                        if (ballInstance) {
+                            if (!letterCollisionColors.has(letterIndex)) {
+                                letterCollisionColors.set(letterIndex, new Set());
+                            }
+                            letterCollisionColors.get(letterIndex).add(ballInstance.color);
+                        }
+                    }
+                }
+                
+                letterCollisionColors.forEach((colorSet, letterIndex) => {
+                    const uniqueColors = Array.from(colorSet);
+                    let avgR = 0, avgG = 0, avgB = 0;
+                    uniqueColors.forEach(hexColor => {
+                        const rgb = hexToRgb(hexColor);
+                        avgR += rgb.r;
+                        avgG += rgb.g;
+                        avgB += rgb.b;
+                    });
+                    const count = uniqueColors.length;
+                    avgR /= count;
+                    avgG /= count;
+                    avgB /= count;
+                    const averageColorHex = rgbToHex(avgR, avgG, avgB);
+
+                    textCompoundBody.parts.forEach(part => {
+                        if (part.label === 'brick' && part.letterIndex === letterIndex) {
+                            part.targetColor = averageColorHex;
+                            part.startColor = part.customColor;
+                            part.colorChangeStartTime = millis();
+                        }
+                    });
+                });
+            });
+        }
+
+        function createGround(w, h) {
+            if (ground) World.remove(world, ground);
+            ground = Bodies.rectangle(w / 2, h + 10, w, 20, { 
+                isStatic: true, 
+                label: 'ground',
+                friction: 1.0, 
+                restitution: 0.4 
+            });
+            World.add(world, ground);
+        }
+        
+        function preload() {
+            font = loadFont('./font.ttf');
+        }
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            pixelDensity(1);
+
+            engine = Engine.create(); 
+            world = engine.world;
+            world.gravity.y = 0.8;
+            engine.timing.timeScale = 1;
+            engine.enableSleeping = false;
+            engine.positionIterations = 30; 
+            engine.velocityIterations = 30; 
+
+            textFont(font);
+            textSize(FONT_SIZE);
+            textAlign(CENTER, CENTER);
+
+            createGround(windowWidth, windowHeight);
+
+            const burgerButton = document.getElementById('burgerButton');
+            const sideMenu = document.getElementById('sideMenu');
+            const menuOverlay = document.getElementById('menuOverlay');
+            
+            const toggleMenu = () => {
+                sideMenu.classList.toggle('open');
+                menuOverlay.classList.toggle('visible');
+            };
+
+            burgerButton.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+
+            const textarea = document.getElementById('textInput');
+            textarea.value = textValue;
+            textarea.addEventListener('input', (e) => {
+                textValue = e.target.value.trim() || 'BORGES\nWHEEL';
+                resetTextCompound(textValue);
+            });
+
+            const advancedToggle = document.getElementById('advancedToggle');
+            const advancedOptions = document.getElementById('advancedOptions');
+            
+            advancedToggle.addEventListener('click', () => {
+                advancedOptions.classList.toggle('open');
+                advancedToggle.textContent = advancedOptions.classList.contains('open') 
+                    ? 'Advanced Settings ▲' 
+                    : 'Advanced Settings ▼';
+            });
+
+            setupRangeInput('fontSize', (v) => { FONT_SIZE = v; resetTextCompound(textValue); });
+            setupRangeInput('brickSize', (v) => { BRICK_SIZE = v; resetTextCompound(textValue); });
+            setupRangeInput('sampleFactor', (v) => { SAMPLE_FACTOR = v; resetTextCompound(textValue); });
+            setupRangeInput('lineHeight', (v) => { LINE_HEIGHT_MULTIPLIER = v; resetTextCompound(textValue); });
+            setupRangeInput('dragSpin', (v) => { DRAG_SPIN_FACTOR = v; });
+            setupRangeInput('textMass', (v) => { TEXT_MASS_MULTIPLIER = v; resetTextCompound(textValue); });
+            setupRangeInput('rotationForce', (v) => { ROTATION_FORCE = v; });
+            setupRangeInput('restVelocity', (v) => { REST_VELOCITY_THRESHOLD = v; }); 
+
+            document.getElementById('spawnInterval').addEventListener('input', (e) => {
+                PARTICLE_SPAWN_INTERVAL = parseInt(e.target.value);
+            });
+            document.getElementById('letterSpacing').addEventListener('input', (e) => {
+                LETTER_SPACING = parseInt(e.target.value);
+                resetTextCompound(textValue);
+            });
+            document.getElementById('restTimeout').addEventListener('input', (e) => {
+                REST_TIMEOUT = parseInt(e.target.value); 
+            });
+            document.getElementById('debugBricks').addEventListener('change', (e) => {
+                DEBUG_BRICKS = e.target.checked;
+            });
+            document.getElementById('autoCleanEnabled').addEventListener('change', (e) => {
+                autoCleanEnabled = e.target.checked;
+            });
+            document.getElementById('paletteSelect').addEventListener('change', (e) => {
+                currentPaletteIndex = parseInt(e.target.value);
+                resetTextColors(); 
+            });
+            document.getElementById('ballPaletteSelect').addEventListener('change', (e) => {
+                ballPaletteIndex = parseInt(e.target.value);
+            });
+            document.getElementById('maxBalls').addEventListener('input', (e) => {
+                MAX_BALLS = parseInt(e.target.value);
+            });
+            document.getElementById('ballCollisionColorMode').addEventListener('change', (e) => {
+                BALL_COLLISION_COLOR_MODE = e.target.checked;
+                resetTextColors(); 
+            });
+
+            setupMotionSensors();
+            
+            resetTextCompound(textValue);
+            setupCollisionDetection(); 
+        }
+
+        function setupMotionSensors() {
+            const gyroToggle = document.getElementById('gyroscopeGravityEnabled');
+            const permButton = document.getElementById('requestOrientationPermission');
+            const gyroStatus = document.getElementById('gyroStatus');
+
+            const needsPermission = typeof DeviceOrientationEvent !== 'undefined' && 
+                                   typeof DeviceOrientationEvent.requestPermission === 'function';
+
+            if (needsPermission) {
+                permButton.style.display = 'block';
+                gyroStatus.style.display = 'block';
+                
+                permButton.addEventListener('click', async () => {
+                    try {
+                        // Request both orientation and motion permissions
+                        const orientationPermission = await DeviceOrientationEvent.requestPermission();
+                        const motionPermission = typeof DeviceMotionEvent.requestPermission === 'function' 
+                            ? await DeviceMotionEvent.requestPermission()
+                            : 'granted';
+                        
+                        if (orientationPermission === 'granted' && motionPermission === 'granted') {
+                            gyroPermissionGranted = true;
+                            GYROSCOPE_GRAVITY_ENABLED = gyroToggle.checked;
+                            permButton.style.display = 'none';
+                            gyroStatus.textContent = GYROSCOPE_GRAVITY_ENABLED ? 'Sensors active ✓' : 'Sensors ready (toggle to activate)';
+                            gyroStatus.className = 'gyro-status active';
+                            
+                            if (GYROSCOPE_GRAVITY_ENABLED) {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                                window.addEventListener('devicemotion', handleMotion);
+                            }
+                        } else {
+                            gyroStatus.textContent = 'Permission denied';
+                            gyroStatus.className = 'gyro-status';
+                        }
+                    } catch (error) {
+                        console.error('Permission error:', error);
+                        gyroStatus.textContent = 'Permission denied or error';
+                        gyroStatus.className = 'gyro-status';
+                    }
+                });
+                
+                gyroToggle.addEventListener('change', (e) => {
+                    if (e.target.checked && !gyroPermissionGranted) {
+                        e.target.checked = false;
+                        gyroStatus.textContent = 'Click "Enable Motion Sensors" first';
+                        return;
+                    }
+                    GYROSCOPE_GRAVITY_ENABLED = e.target.checked;
+                    
+                    if (GYROSCOPE_GRAVITY_ENABLED) {
+                        gyroStatus.textContent = 'Sensors active ✓';
+                        gyroStatus.className = 'gyro-status active';
+                        window.addEventListener('deviceorientation', handleOrientation);
+                        window.addEventListener('devicemotion', handleMotion);
+                    } else {
+                        gyroStatus.textContent = 'Sensors ready (toggle to activate)';
+                        gyroStatus.className = 'gyro-status';
+                        window.removeEventListener('deviceorientation', handleOrientation);
+                        window.removeEventListener('devicemotion', handleMotion);
+                        world.gravity.x = 0;
+                        world.gravity.y = 0.8;
+                    }
+                });
+            } else {
+                // Android or desktop - no permission needed
+                gyroStatus.style.display = 'block';
+                gyroStatus.textContent = 'Sensors available';
+                
+                gyroToggle.addEventListener('change', (e) => {
+                    GYROSCOPE_GRAVITY_ENABLED = e.target.checked;
+                    
+                    if (GYROSCOPE_GRAVITY_ENABLED) {
+                        gyroStatus.textContent = 'Sensors active ✓';
+                        gyroStatus.className = 'gyro-status active';
+                        window.addEventListener('deviceorientation', handleOrientation);
+                        window.addEventListener('devicemotion', handleMotion);
+                    } else {
+                        gyroStatus.textContent = 'Sensors inactive';
+                        gyroStatus.className = 'gyro-status';
+                        window.removeEventListener('deviceorientation', handleOrientation);
+                        window.removeEventListener('devicemotion', handleMotion);
+                        world.gravity.x = 0;
+                        world.gravity.y = 0.8;
+                    }
+                });
+            }
+        }
+
+        function handleOrientation(event) {
+            if (!GYROSCOPE_GRAVITY_ENABLED) return;
+            
+            const beta = event.beta;
+            const gamma = event.gamma;
+            
+            if (beta !== null && gamma !== null) {
+                const gravityX = map(gamma, -90, 90, -1, 1);
+                const gravityY = map(beta, -90, 90, 1, -1);
+                world.gravity.x = constrain(gravityX, -1, 1);
+                world.gravity.y = constrain(gravityY, -1, 1);
+            }
+        }
+
+        function handleMotion(event) {
+            if (!GYROSCOPE_GRAVITY_ENABLED || !textCompoundBody) return;
+            
+            const acc = event.accelerationIncludingGravity;
+            if (!acc) return;
+            
+            const totalAcc = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);
+            
+            if (totalAcc > 20 && millis() - lastShakeTime > 500) {
+                lastShakeTime = millis();
+                const impulse = 0.02;
+                Body.applyForce(textCompoundBody, textCompoundBody.position, {
+                    x: (Math.random() - 0.5) * impulse,
+                    y: -Math.abs(Math.random()) * impulse
+                });
+                Body.setAngularVelocity(textCompoundBody, textCompoundBody.angularVelocity + (Math.random() - 0.5) * 0.1);
+            }
+        }
+
+        function setupRangeInput(id, callback) {
+            const input = document.getElementById(id);
+            const valueDisplay = document.getElementById(id + 'Value');
+            input.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                valueDisplay.textContent = value;
+                callback(value);
+            });
+        }
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+            createGround(windowWidth, windowHeight);
+            if (textCompoundBody) {
+                resetTextCompound(textValue); 
+            }
+        }
+
+        function calculateLetterPositions(txt, cx, cy) {
+            const lines = txt.split('\n').filter(l => l.trim() !== '');
+            const positions = [];
+            const lineHeight = FONT_SIZE * LINE_HEIGHT_MULTIPLIER;
+            const totalHeight = lines.length * lineHeight;
+            const startY = cy - totalHeight / 2 + lineHeight * 0.5;
+            let globalLetterIndex = 0;
+
+            lines.forEach((line, lineIndex) => {
+                const currentY = startY + lineIndex * lineHeight;
+                const chars = line.split('');
+                const invertLogic = lineIndex % 2 === 1;
+                const processedChars = [];
+
+                chars.forEach((char) => {
+                    if (char.trim() === '') {
+                        processedChars.push({ char, isSpace: true, width: FONT_SIZE * 0.3 });
+                    } else {
+                        let isLowerCase = (globalLetterIndex % 2 === 0);
+                        if (invertLogic) isLowerCase = !isLowerCase;
+                        const alternatedChar = isLowerCase ? char.toLowerCase() : char.toUpperCase();
+                        const bounds = font.textBounds(alternatedChar, 0, 0, FONT_SIZE);
+                        const letterWidth = bounds.w;
+                        processedChars.push({ 
+                            char: alternatedChar, 
+                            isSpace: false, 
+                            width: letterWidth, 
+                            actualWidth: bounds.w 
+                        });
+                        globalLetterIndex++;
+                    }
+                });
+
+                let totalLineWidth = processedChars.reduce((acc, item) => acc + item.width, 0);
+                const letterCount = processedChars.filter(c => !c.isSpace).length;
+                if (letterCount > 1) totalLineWidth += (letterCount - 1) * LETTER_SPACING;
+
+                let currentX = cx - totalLineWidth / 2;
+                let letterIndexInLine = 0;
+
+                processedChars.forEach((item) => {
+                    if (!item.isSpace) {
+                        const boxCenterX = currentX + item.width / 2;
+                        positions.push({
+                            letter: item.char,
+                            boxCenterX: boxCenterX,
+                            boxWidth: item.width,
+                            actualWidth: item.actualWidth,
+                            y: currentY
+                        });
+                        currentX += item.width;
+                        letterIndexInLine++;
+                        if (letterIndexInLine < letterCount) currentX += LETTER_SPACING;
+                    } else {
+                        currentX += item.width;
+                    }
+                });
+            });
+
+            return positions;
+        }
+
+        function resetTextColors() {
+            if (textCompoundBody) {
+                for (let i = 1; i < textCompoundBody.parts.length; i++) {
+                    const brick = textCompoundBody.parts[i];
+                    const letterIndex = brick.letterIndex; 
+                    const defaultColor = getColorForLetter(letterIndex); 
+                    brick.customColor = defaultColor;
+                    brick.targetColor = defaultColor;
+                    brick.startColor = defaultColor;
+                    brick.colorChangeStartTime = 0;
+                }
+            }
+        }
+
+        function resetTextCompound() {
+            if (textCompoundBody) {
+                World.remove(world, textCompoundBody);
+                textCompoundBody = null;
+            }
+            if (pivotConstraint) {
+                World.remove(world, pivotConstraint);
+                pivotConstraint = null;
+            }
+            if (!textValue) return;
+
+            letterPositions = calculateLetterPositions(textValue, width / 2, height / 2);
+            
+            const compoundBody = createTextCompound();
+            if (compoundBody) {
+                textCompoundBody = compoundBody;
+                World.add(world, textCompoundBody);
+                
+                const avgX = letterPositions.reduce((sum, l) => sum + l.boxCenterX, 0) / letterPositions.length;
+                const avgY = letterPositions.reduce((sum, l) => sum + l.y, 0) / letterPositions.length;
+
+                const pivot = Constraint.create({
+                    pointA: { x: avgX, y: avgY },
+                    bodyB: textCompoundBody,
+                    pointB: { x: 0, y: 0 },
+                    stiffness: 1,
+                    damping: 0.25,
+                    length: 0
+                });
+
+                World.add(world, pivot);
+                pivotConstraint = pivot;
+                resetTextColors();
+            }
+        }
+
+        function createTextCompound() {
+            if (letterPositions.length === 0) return null;
+            const parts = [];
+            let currentLetterIndex = 0;
+
+            letterPositions.forEach((letterData) => {
+                const leftX = letterData.boxCenterX - letterData.actualWidth / 2;
+                let points = font.textToPoints(letterData.letter, leftX, letterData.y, FONT_SIZE, {
+                    sampleFactor: SAMPLE_FACTOR,
+                    simplifyThreshold: 0
+                });
+
+                if (points && points.length > 0) {
+                    const avgX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
+                    const shiftX = letterData.boxCenterX - avgX;
+                    points = points.map(p => ({ x: p.x + shiftX, y: p.y }));
+                    const defaultColor = getColorForLetter(currentLetterIndex);
+
+                    for (let p of points) {
+                        const rectPart = Bodies.rectangle(p.x, p.y, BRICK_SIZE * 2, BRICK_SIZE * 2, {
+                            isStatic: false,
+                            friction: 0.9,
+                            restitution: 0.5, 
+                            density: 0.002,
+                            chamfer: { radius: BRICK_SIZE * 0.3 }
+                        });
+                        
+                        rectPart.label = 'brick';
+                        rectPart.letterIndex = currentLetterIndex;
+                        rectPart.customColor = defaultColor;
+                        rectPart.targetColor = defaultColor;
+                        rectPart.startColor = defaultColor;
+                        rectPart.colorChangeStartTime = 0;
+                        parts.push(rectPart);
+                    }
+                }
+                currentLetterIndex++;
+            });
+
+            const centerPart = Bodies.circle(width / 2, height / 2, 8, {
+                isStatic: false,
+                frictionAir: 0.02,
+                density: 5,
+                label: 'centerPart' 
+            });
+            parts.unshift(centerPart);
+
+            const compound = Body.create({
+                parts: parts,
+                friction: 0.9,
+                restitution: 0.02,
+                density: 0.002
+            });
+
+            Body.setInertia(compound, compound.inertia * TEXT_MASS_MULTIPLIER);
+            compound.plugin = { angularDamping: 0.97 }; 
+            return compound;
+        }
+
+        function getColorForLetter(index) {
+            const palette = COLOR_PALETTES[currentPaletteIndex];
+            return palette[index % palette.length];
+        }
+
+        class Ball {
+            constructor(x, y, r) {
+                this.r = r;
+                this.body = Bodies.circle(x, y, r, {
+                    restitution: 0.85, 
+                    friction: 0.001, 
+                    density: 0.05,
+                    frictionAir: 0.04, 
+                    label: 'ball',
+                    slop: 0, 
+                    isBullet: true 
+                });
+                this.body.angularDamping = 0.98;
+                World.add(world, this.body);
+                this.isResting = false; 
+                this.timeResting = 0;
+                this.birthTime = millis();
+                const palette = COLOR_PALETTES[ballPaletteIndex];
+                this.color = random(palette);
+                ballsEmittedCount++;
+            }
+        }
+
+        function getLetterColor(letterIndex) {
+            if (!textCompoundBody) return null;
+            const representativeBrick = textCompoundBody.parts.find(p => p.label === 'brick' && p.letterIndex === letterIndex);
+            if (!representativeBrick) return getColorForLetter(letterIndex);
+            
+            const timeElapsed = millis() - representativeBrick.colorChangeStartTime;
+            const t = constrain(timeElapsed / COLOR_TRANSITION_DURATION, 0, 1);
+
+            if (t < 1) {
+                const interpolatedColor = lerpColorHex(representativeBrick.startColor, representativeBrick.targetColor, t);
+                representativeBrick.customColor = interpolatedColor;
+                return interpolatedColor;
+            } else {
+                representativeBrick.customColor = representativeBrick.targetColor;
+                representativeBrick.startColor = representativeBrick.targetColor;
+                return representativeBrick.targetColor;
+            }
+        }
+
+        function draw() {
+            Engine.update(engine); 
+            background(30);
+
+            if (textCompoundBody) {
+                textCompoundBody.angularVelocity *= textCompoundBody.plugin.angularDamping;
+            }
+
+            if (isDragging && textCompoundBody) {
+                const pos = textCompoundBody.position;
+                const dx = mouseX - lastMouseX;
+                const dy = mouseY - lastMouseY;
+                const toMouseX = mouseX - pos.x;
+                const toMouseY = mouseY - pos.y;
+                const tangentialVelocity = (dx * toMouseX - dy * toMouseY) / 100;
+                Body.setAngularVelocity(
+                    textCompoundBody,
+                    textCompoundBody.angularVelocity + tangentialVelocity * DRAG_SPIN_FACTOR
+                );
+            }
+
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            
+            if (balls.length < MAX_BALLS && millis() - lastSpawnTime > PARTICLE_SPAWN_INTERVAL) {
+                const x = random(width * 0.45, width * 0.55);
+                balls.push(new Ball(x, -10, random(3, 4)));
+                lastSpawnTime = millis();
+                if (ballsEmittedCount % MAX_BALLS === 0 && MAX_BALLS > 0) {
+                    ballPaletteIndex = (ballPaletteIndex + 1) % COLOR_PALETTES.length;
+                    document.getElementById('ballPaletteSelect').value = ballPaletteIndex;
+                }
+            }
+        
+            if (autoCleanEnabled) {
+                const ballsToKeep = [];
+                for (let ball of balls) {
+                    const velocitySq = ball.body.velocity.x * ball.body.velocity.x + ball.body.velocity.y * ball.body.velocity.y;
+                    const angularVelocity = abs(ball.body.angularVelocity);
+                    const isMovingSlowly = (velocitySq < REST_VELOCITY_THRESHOLD * REST_VELOCITY_THRESHOLD) && (angularVelocity < REST_VELOCITY_THRESHOLD);
+
+                    if (isMovingSlowly) {
+                        if (!ball.isResting) {
+                            ball.isResting = true;
+                            ball.timeResting = millis();
+                        } else if (millis() - ball.timeResting > REST_TIMEOUT) {
+                            World.remove(world, ball.body);
+                            continue;
+                        }
+                    } else {
+                        ball.isResting = false;
+                        ball.timeResting = 0;
+                    }
+                    ballsToKeep.push(ball);
+                }
+                balls = ballsToKeep;
+            }
+
+            push();
+            noStroke();
+            for (let ball of balls) {
+                fill(ball.color);
+                const pos = ball.body.position;
+                ellipse(pos.x, pos.y, ball.r * 2);
+            }
+            pop();
+
+            if (textCompoundBody && letterPositions.length > 0) {
+                push();
+                noStroke();
+                textFont(font);
+                textSize(FONT_SIZE);
+                textAlign(LEFT, BASELINE);
+
+                const { x: cx, y: cy } = textCompoundBody.position;
+                const angle = textCompoundBody.angle;
+
+                translate(cx, cy);
+                rotate(angle);
+
+                letterPositions.forEach((letterData, index) => {
+                    let letterColor = BALL_COLLISION_COLOR_MODE ? getLetterColor(index) : getColorForLetter(index);
+                    fill(letterColor);
+                    const bounds = font.textBounds(letterData.letter, 0, 0, FONT_SIZE);
+                    const visualOffsetX = -bounds.x - bounds.w / 2;
+                    const relX = (letterData.boxCenterX + visualOffsetX) - width / 2;
+                    const relY = letterData.y - height / 2;
+                    text(letterData.letter, relX, relY);
+                });
+
+                pop();
+            }
+            
+            if (DEBUG_BRICKS && textCompoundBody) {
+                push();
+                noStroke();
+                rectMode(CENTER);
+                for (let i = 1; i < textCompoundBody.parts.length; i++) { 
+                    const p = textCompoundBody.parts[i];
+                    if (p.label === 'brick' && p.customColor) {
+                        fill(p.customColor);
+                    } else {
+                        fill(255, 0, 0, 120); 
+                    }
+                    if (p.circleRadius && p.circleRadius > 0) {
+                        ellipse(p.position.x, p.position.y, p.circleRadius * 2);
+                    } else {
+                        const w = Math.max(BRICK_SIZE * 2, p.bounds.max.x - p.bounds.min.x);
+                        const h = Math.max(BRICK_SIZE * 2, p.bounds.max.y - p.bounds.min.y);
+                        push();
+                        translate(p.position.x, p.position.y);
+                        rotate(p.angle);
+                        rect(0, 0, w, h);
+                        pop();
+                    }
+                }
+                pop();
+            }
+        }
+
+        function mousePressed() {
+            if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height && textCompoundBody) {
+                const pos = textCompoundBody.position;
+                if (dist(mouseX, mouseY, pos.x, pos.y) < 200) {
+                    isDragging = true;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                }
+            }
+        }
+
+        function touchStarted() {
+            mousePressed();
+            return false;
+        }
+
+        function mouseReleased() {
+            isDragging = false;
+        }
+
+        function touchEnded() {
+            mouseReleased();
+            return false;
+        }
+        
+        function keyPressed() {
+            if (!textCompoundBody) return;
+            if (keyCode === RIGHT_ARROW) {
+                Body.setAngularVelocity(textCompoundBody, textCompoundBody.angularVelocity + ROTATION_FORCE);
+            } else if (keyCode === LEFT_ARROW) {
+                Body.setAngularVelocity(textCompoundBody, textCompoundBody.angularVelocity - ROTATION_FORCE);
+            }
+        }
+    </script>
+</body>
+</html>
