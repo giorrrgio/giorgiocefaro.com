@@ -1,9 +1,9 @@
 remote_theme: BDHU/minimalist
 plugins:
 - jekyll-remote-theme # add
-title: Giorgio Cefaro
+title: Giorgio Cefaro |  Engineering Leader | Helping organizations scale tech & talent
 logo: /giorgio.jpg
-description: Senior Software Development Manager @ Hootsuite
+description: Engineering Leader | Helping organizations scale tech & talent
 show_downloads: false
 sidebar:
   - name: Linkedin
