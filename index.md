@@ -4,10 +4,6 @@ layout: default
 
 # I help engineering teams deliver software.
 
-I work with developers to grow their skills through continuous challenges and feedback and optimize their performance with a data-driven approach. I practice agile and continuous improvement. 
+Transformational Engineering Leader with 20 years in software development, including a decade of driving significant growth and innovation in SaaS solutions across dynamic social media platforms. 
 
-I have a very broad experience with stacks and languages. I embrace the DevOps culture. 
-
-I describe my leadership style as  patient, calm, rational and inclusive, always looking to recognize and remove any bias.
-
-I have been working  in the Software Engineering field for 20+ years.
+I empower high-performing teams to architect and deliver at scale, leveraging AI-powered development tools to accelerate efficiency and breakthrough innovation. My leadership cultivates inclusive, data-driven environments where engineers excel, biases are minimized, and continuous delivery is the norm.
