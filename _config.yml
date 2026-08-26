@@ -1,4 +1,4 @@
-remote_theme: BDHU/minimalist@v0.1.0
+remote_theme: BDHU/minimalist
 plugins:
 - jekyll-remote-theme # add
 title: Giorgio Cefaro |  Engineering Leader | Helping organizations scale tech & talent
