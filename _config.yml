@@ -1,9 +1,9 @@
 remote_theme: BDHU/minimalist@23d0af215786e0249f853b856cef4ea029704ff3
 plugins:
 - jekyll-remote-theme # add
-title: Giorgio Cefaro |  Engineering Leader | Helping organizations scale tech & talent
+title: Giorgio Cefaro |  Engineering Leader
 logo: /giorgio.jpg
-description: Engineering Leader
+description: Engineering Leader | Helping organizations scale tech & talent
 show_downloads: false
 sidebar:
   - name: Linkedin
