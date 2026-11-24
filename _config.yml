@@ -15,3 +15,5 @@ sidebar:
   - name: Twitter
     icon: <i class="fa-brands fa-twitter"></i>
     link: https://twitter.com/giorrrgio
+include:
+  - .well-known
